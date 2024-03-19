@@ -1909,13 +1909,18 @@ void CodeGenFunction::EmitAutoVarInit(const AutoVarEmission &emission) {
   const Address Loc =
       locIsByrefHeader ? emission.getObjectAddress(*this) : emission.Addr;
 
-  // Note: constexpr already initializes everything correctly.
-  LangOptions::TrivialAutoVarInitKind trivialAutoVarInit =
-      (D.isConstexpr()
-           ? LangOptions::TrivialAutoVarInitKind::Uninitialized
-           : (D.getAttr<UninitializedAttr>()
-                  ? LangOptions::TrivialAutoVarInitKind::Uninitialized
-                  : getContext().getLangOpts().getTrivialAutoVarInit()));
+  LangOptions::TrivialAutoVarInitKind trivialAutoVarInit;
+
+  if (D.isConstexpr()) {  
+    // Note: constexpr already initializes everything correctly.
+    trivialAutoVarInit = LangOptions::TrivialAutoVarInitKind::Uninitialized;
+  } else if (D.hasAttr<UninitializedAttr>())
+    trivialAutoVarInit = LangOptions::TrivialAutoVarInitKind::Uninitialized;
+  else if (const auto *RecordTy = D.getType()->getAsRecordDecl();
+           RecordTy && RecordTy->hasAttr<UnusedAttr>())
+    trivialAutoVarInit = LangOptions::TrivialAutoVarInitKind::Uninitialized;
+  else
+    trivialAutoVarInit = getContext().getLangOpts().getTrivialAutoVarInit();
 
   auto initializeWhatIsTechnicallyUninitialized = [&](Address Loc) {
     if (trivialAutoVarInit ==

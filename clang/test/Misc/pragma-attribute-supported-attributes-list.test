@@ -197,7 +197,7 @@
 // CHECK-NEXT: TargetVersion (SubjectMatchRule_function)
 // CHECK-NEXT: TestTypestate (SubjectMatchRule_function_is_member)
 // CHECK-NEXT: TrivialABI (SubjectMatchRule_record)
-// CHECK-NEXT: Uninitialized (SubjectMatchRule_variable_is_local)
+// CHECK-NEXT: Uninitialized (SubjectMatchRule_variable_is_local, SubjectMatchRule_record)
 // CHECK-NEXT: UnsafeBufferUsage (SubjectMatchRule_function)
 // CHECK-NEXT: UseHandle (SubjectMatchRule_variable_is_parameter)
 // CHECK-NEXT: VecReturn (SubjectMatchRule_record)

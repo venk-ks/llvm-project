@@ -38,4 +38,24 @@ void test_pragma_attribute_uninitialized() {
 }
 #pragma clang attribute pop
 
+struct [[clang::uninitialized]] uninitialized_record {
+  int i;
+};
+
+// UNINIT-LABEL:  test_record_attribute_uninitialized(
+// UNINIT:      alloca
+// UNINIT-NEXT: call void
+// ZERO-LABEL:    test_record_attribute_uninitialized(
+// ZERO:      alloca
+// ZERO-NOT:  !annotation
+// ZERO-NEXT: call void
+// PATTERN-LABEL: test_record_attribute_uninitialized(
+// PATTERN:      alloca
+// PATTERN-NOT:  !annotation
+// PATTERN-NEXT: call void
+void test_record_attribute_uninitialized() {
+  uninitialized_record some;
+  used(some);
+}
+
 } // extern "C"

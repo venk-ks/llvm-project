@@ -851,6 +851,13 @@ namespace StmtExpr {
     ({ if (true) {} }); // cxx14_20-note {{not supported}}
     return 0;
   }
+
+  // Make sure the uninitialized attribute does not silent constant expression
+  // warnings.
+  constexpr int i() {
+    return ({ __attribute__((uninitialized)) int n; n; }); // expected-note {{read of uninitialized object}}
+  }
+  static_assert(i() == 0, ""); // expected-error {{constant expression}} expected-note {{in call}}
 }
 
 namespace VirtualFromBase {

@@ -4218,7 +4218,7 @@ def : MutualExclusions<[SpeculativeLoadHardening, NoSpeculativeLoadHardening]>;
 
 def Uninitialized : InheritableAttr {
   let Spellings = [Clang<"uninitialized", 0>];
-  let Subjects = SubjectList<[LocalVar]>;
+  let Subjects = SubjectList<[LocalVar, Record]>;
   let PragmaAttributeSupport = 1;
   let Documentation = [UninitializedDocs];
 }

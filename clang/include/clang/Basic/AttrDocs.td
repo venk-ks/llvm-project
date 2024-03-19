@@ -6089,8 +6089,9 @@ def UninitializedDocs : Documentation {
 The command-line parameter ``-ftrivial-auto-var-init=*`` can be used to
 initialize trivial automatic stack variables. By default, trivial automatic
 stack variables are uninitialized. This attribute is used to override the
-command-line parameter, forcing variables to remain uninitialized. It has no
-semantic meaning in that using uninitialized values is undefined behavior,
+command-line parameter, forcing variables to remain uninitialized. When set on a
+struct, class, or union, all stack variables of this type are affected. It has
+no semantic meaning in that using uninitialized values is undefined behavior,
 it rather documents the programmer's intent.
   }];
 }

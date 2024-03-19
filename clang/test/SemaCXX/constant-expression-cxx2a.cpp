@@ -1362,6 +1362,9 @@ namespace mutable_subobjects {
   static_assert(&zti == &typeid(Y));
 }
 
+struct __attribute__((uninitialized)) j { int v; constexpr j() {}};
+static_assert(j().v == 0, ""); // expected-error {{constant expression}} expected-note {{read of uninitialized object is not allowed in a constant expression}}
+
 namespace PR45133 {
   struct A { long x; };
 

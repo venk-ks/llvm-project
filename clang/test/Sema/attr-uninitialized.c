@@ -18,4 +18,4 @@ void just_to_tell_you_once_again(__attribute((uninitialized)) int whos_bad) {} /
 
 struct TheWordIsOut {
   __attribute((uninitialized)) int youre_doin_wrong; // expected-warning {{'uninitialized' attribute only applies to local variables}}
-} __attribute((uninitialized));                      // expected-warning {{'uninitialized' attribute only applies to local variables}}
+} __attribute((uninitialized));
